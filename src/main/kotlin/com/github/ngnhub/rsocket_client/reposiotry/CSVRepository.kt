@@ -1,4 +1,4 @@
-package com.github.ngnhub.rsocket_client.service
+package com.github.ngnhub.rsocket_client.reposiotry
 
 import com.github.ngnhub.rsocket_client.model.RSocketInitRequest
 import com.github.ngnhub.rsocket_client.model.SavedRSocketRequest
@@ -26,17 +26,19 @@ class CSVRepository {
     @Value("\${history.csv.path}")
     lateinit var path: String
 
-    fun SavedRSocketRequest.save(): RSocketInitRequest {
+    fun save(request: SavedRSocketRequest): RSocketInitRequest {
         val file = File(path)
         CSVFormat.DEFAULT.print(file, StandardCharsets.UTF_8).use {
-            it.printRecord(*headers)
-            it.printRecord(
-                rSocketInitRequest.host,
-                rSocketInitRequest.port,
-                rSocketInitRequest.route,
-                savedAt.toString()
-            )
-            return rSocketInitRequest
+            with(request) {
+                it.printRecord(*headers)
+                it.printRecord(
+                    rSocketInitRequest.host,
+                    rSocketInitRequest.port,
+                    rSocketInitRequest.route,
+                    savedAt.toString()
+                )
+                return rSocketInitRequest
+            }
         }
     }
 
