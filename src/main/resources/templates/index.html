@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+    <!--  Add CSS -->
+    <link th:href="@{/css/app.css}" rel="stylesheet"/>
+</head>
+<body class="inner">
+<h1>RSocket UI Client</h1>
+
+<form action="#" th:action="@{/route}" method="post">
+    <p>Host: <label>
+        <input name ="host" type="text"/>
+    </label></p>
+    <p>Port: <label>
+        <input name ="port" type="number"/>
+    </label></p>
+    <p>Route: <label>
+        <input name ="route" type="text"/>
+    </label></p>
+    <p>
+        <button type="submit">Send</button>
+    </p>
+</form>
+</body>
+</html>
