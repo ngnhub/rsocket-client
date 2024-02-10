@@ -10,19 +10,47 @@
 <body class="inner">
 <h1>RSocket UI Client</h1>
 
-<form action="#" th:action="@{/route}" method="post">
+<form id="sendForm" action="#" th:action="@{/route}" method="post">
     <p>Host: <label>
-        <input name ="host" type="text"/>
+        <input name="host" type="text"/>
     </label></p>
     <p>Port: <label>
-        <input name ="port" type="number"/>
+        <input name="port" type="number"/>
     </label></p>
     <p>Route: <label>
-        <input name ="route" type="text"/>
+        <input name="route" type="text"/>
     </label></p>
     <p>
         <button type="submit">Send</button>
     </p>
+    <p>
+        <button onclick="saveForm()" type="button">Save</button>
+    </p>
 </form>
+
+<script>
+    function saveForm() {
+        const form = document.getElementById('sendForm');
+        const formData = new FormData(form);
+        const rsocketRequest = {};
+
+        formData.forEach(function (value, key) {
+            rsocketRequest[key] = value;
+        });
+        const saveRequest = {};
+        saveRequest["rSocketInitRequest"] = rsocketRequest
+
+        fetch('/history', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(saveRequest),
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+    }
+</script>
 </body>
 </html>

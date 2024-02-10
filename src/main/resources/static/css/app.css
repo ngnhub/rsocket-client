@@ -59,7 +59,7 @@ input[type="text"], [type="number"] {
     box-sizing: border-box;
 }
 
-button[type="submit"] {
+button[type="submit"], [type="button"] {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
@@ -69,6 +69,6 @@ button[type="submit"] {
     cursor: pointer;
 }
 
-button[type="submit"]:hover {
+button[type="submit"], [type="button"] :hover {
     background-color: #0056b3;
 }
