@@ -15,7 +15,7 @@ class HistoryRouteFunctionConfig(private val historyService: HistoryService) {
 
     @Bean
     fun historyRouteFunction() = coRouter {
-        POST("/history") {
+        POST("/history") { // TODO: should read json
             it.handleCreate()
         }
         GET("/history") {

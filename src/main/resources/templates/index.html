@@ -9,7 +9,10 @@
 </head>
 <body class="inner">
 <h1>RSocket UI Client</h1>
-
+<aside id="sidebar">
+    <ul id="items">
+    </ul>
+</aside>
 <form id="sendForm" action="#" th:action="@{/route}" method="post">
     <p>Host: <label>
         <input name="host" type="text"/>
@@ -51,6 +54,43 @@
             .then(data => console.log(data))
             .catch(error => console.error('Error:', error));
     }
+
+    function loadHistory() {
+        fetch('/history')
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById('items');
+                list.innerHTML = '';
+                data.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent =
+                        `${item.rsocketInitRequest.host}${item.rsocketInitRequest.port}${item.rsocketInitRequest.route}`;
+                    list.appendChild(listItem);
+                    listItem.addEventListener('click', function () {
+                        const rsocketRequest = {};
+                        rsocketRequest['host'] = item.rsocketInitRequest.host
+                        rsocketRequest['port'] = item.rsocketInitRequest.host
+                        rsocketRequest['route'] = item.rsocketInitRequest.route
+                        fetch('/route', {
+
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: JSON.stringify(rsocketRequest),
+                        })
+                            .then(response => response.json())
+                            .then(data => console.log(data))
+                            .catch(error => console.error('Error:', error));
+                    })
+                });
+            })
+            .catch(error => console.error('Error loading history:', error));
+    }
+
+    window.onload = function () {
+        loadHistory();
+    };
 </script>
 </body>
 </html>
