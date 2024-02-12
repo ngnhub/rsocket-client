@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
@@ -24,10 +24,7 @@
         <input name="route" type="text"/>
     </label></p>
     <p>
-        <button type="submit">Send</button>
-    </p>
-    <p>
-        <button onclick="saveForm()" type="button">Save</button>
+        <button onclick="saveForm()" type="submit">Send</button>
     </p>
 </form>
 
@@ -79,6 +76,13 @@
 
     window.onload = function () {
         loadHistory();
+    };
+</script>
+<script>
+    window.onpageshow = function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
     };
 </script>
 </body>
