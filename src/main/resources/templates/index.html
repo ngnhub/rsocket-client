@@ -24,34 +24,11 @@
         <input name="route" type="text"/>
     </label></p>
     <p>
-        <button onclick="saveForm()" type="submit">Send</button>
+        <button type="submit">Send</button>
     </p>
 </form>
 
 <script>
-    function saveForm() {
-        const form = document.getElementById('sendForm');
-        const formData = new FormData(form);
-        const rsocketRequest = {};
-
-        formData.forEach(function (value, key) {
-            rsocketRequest[key] = value;
-        });
-        const saveRequest = {};
-        saveRequest["rSocketInitRequest"] = rsocketRequest
-
-        fetch('/history', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(saveRequest),
-        })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
-    }
-
     function loadHistory() {
         fetch('/history')
             .then(response => response.json())
@@ -61,12 +38,12 @@
                 data.forEach(item => {
                     const listItem = document.createElement('li');
                     listItem.textContent =
-                        `${item.rsocketInitRequest.host}:${item.rsocketInitRequest.port}/${item.rsocketInitRequest.route}`;
+                        `${item.host}:${item.port}/${item.route}`;
                     list.appendChild(listItem);
                     listItem.addEventListener('click', function () {
-                        document.querySelector('input[name="host"]').value = item.rsocketInitRequest.host;
-                        document.querySelector('input[name="port"]').value = item.rsocketInitRequest.port;
-                        document.querySelector('input[name="route"]').value = item.rsocketInitRequest.route;
+                        document.querySelector('input[name="host"]').value = item.host;
+                        document.querySelector('input[name="port"]').value = item.port;
+                        document.querySelector('input[name="route"]').value = item.route;
                     });
                 });
             })
