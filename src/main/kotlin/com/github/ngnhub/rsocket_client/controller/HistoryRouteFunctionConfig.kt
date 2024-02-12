@@ -1,6 +1,7 @@
 package com.github.ngnhub.rsocket_client.controller
 
 import com.github.ngnhub.rsocket_client.model.SavedRSocketRequest
+import com.github.ngnhub.rsocket_client.model.SavedRequestEntity
 import com.github.ngnhub.rsocket_client.service.HistoryService
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.context.annotation.Bean
@@ -25,8 +26,8 @@ class HistoryRouteFunctionConfig(private val historyService: HistoryService) {
 
     suspend fun ServerRequest.handleCreate(): ServerResponse {
         val request = bodyToMono(SavedRSocketRequest::class.java).awaitSingle()
-        historyService.save(request)
-        return ServerResponse.ok().build().awaitSingle()
+        val entity = historyService.save(request)
+        return ServerResponse.ok().body(entity, SavedRequestEntity::class.java).awaitSingle()
     }
 
     suspend fun ServerRequest.handleGet(): ServerResponse {
