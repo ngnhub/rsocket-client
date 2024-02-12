@@ -25,7 +25,7 @@ class HistoryRouteFunctionConfig(private val historyService: HistoryService) {
     }
 
     suspend fun ServerRequest.handleCreate(): ServerResponse {
-        val request = bodyToMono(SavedRSocketRequest::class.java).awaitSingle()
+        val request = bodyToMono(SavedRSocketRequest::class.java)
         val entity = historyService.save(request)
         return ServerResponse.ok().body(entity, SavedRequestEntity::class.java).awaitSingle()
     }
