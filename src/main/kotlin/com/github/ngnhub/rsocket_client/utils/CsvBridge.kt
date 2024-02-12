@@ -13,6 +13,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 
+// TODO: mapdb
 @Component
 class CsvBridge(@Value("\${history.csv.path}") private var path: String) {
 

@@ -41,6 +41,7 @@ class CSVRepository(val bridge: CsvBridge) {
                 }.also {
                     mutex.unlock()
                 }
+                .reversed()
                 .asFlow()
         }
     }
