@@ -24,13 +24,13 @@ class RSocketRouteFunctionConfig(private val listener: RsocketListener, private 
     }
 
     private suspend fun CoRouterFunctionDsl.handleRequest(request: ServerRequest): ServerResponse {
-        val rSocketInitRequest = RSocketInitRequestMapper.map(request)
-        val entity = rSocketInitRequest.toEntity()
-        val flow = listener.request(rSocketInitRequest)
-        coroutineScope {
+        return coroutineScope {
+            val rSocketInitRequest = RSocketInitRequestMapper.map(request)
+            val entity = rSocketInitRequest.toEntity()
             launch { historyService.save(entity).awaitSingle() }
+            val flow = listener.request(rSocketInitRequest)
+            ok().contentType(MediaType.TEXT_EVENT_STREAM).bodyAndAwait(flow)
         }
-        return ok().contentType(MediaType.TEXT_EVENT_STREAM).bodyAndAwait(flow)
     }
 
     fun RSocketInitRequest.toEntity() = SavedRequestEntity(null, host, port, route)
