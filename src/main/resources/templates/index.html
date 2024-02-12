@@ -67,19 +67,22 @@
                         `${item.rsocketInitRequest.host}${item.rsocketInitRequest.port}${item.rsocketInitRequest.route}`;
                     list.appendChild(listItem);
                     listItem.addEventListener('click', function () {
-                        const rsocketRequest = {};
-                        rsocketRequest['host'] = item.rsocketInitRequest.host
-                        rsocketRequest['port'] = item.rsocketInitRequest.host
-                        rsocketRequest['route'] = item.rsocketInitRequest.route
+                        const rSocketRequest = {};
+                        rSocketRequest['host'] = item.rsocketInitRequest.host
+                        rSocketRequest['port'] = item.rsocketInitRequest.port
+                        rSocketRequest['route'] = item.rsocketInitRequest.route
                         fetch('/route', {
-
                             method: 'POST',
                             headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify(rsocketRequest),
+                            body: JSON.stringify(rSocketRequest),
                         })
-                            .then(response => response.json())
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok.');
+                                }
+                            })
                             .then(data => console.log(data))
                             .catch(error => console.error('Error:', error));
                     })
