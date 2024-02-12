@@ -5,7 +5,7 @@ import com.github.ngnhub.rsocket_client.mapper.RSocketInitRequestMapper
 import com.github.ngnhub.rsocket_client.model.RSocketInitRequest
 import com.github.ngnhub.rsocket_client.model.SavedRequestEntity
 import com.github.ngnhub.rsocket_client.service.HistoryService
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.context.annotation.Bean
@@ -14,23 +14,28 @@ import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.server.*
 
 @Configuration
-class RSocketRouteFunctionConfig(private val listener: RsocketListener, private val historyService: HistoryService) {
+class RSocketRouteFunctionConfig(
+    private val listener: RsocketListener,
+    private val historyService: HistoryService,
+    private val asyncTaskCoroutineScope: CoroutineScope
+) {
 
     @Bean
     fun rSocketClientRouter() = coRouter {
         POST("/route") {
             handleRequest(it)
+                .also { println("Exited") }
         }
     }
 
     private suspend fun CoRouterFunctionDsl.handleRequest(request: ServerRequest): ServerResponse {
-        return coroutineScope {
-            val rSocketInitRequest = RSocketInitRequestMapper.map(request)
-            val entity = rSocketInitRequest.toEntity()
-            launch { historyService.save(entity).awaitSingle() }
-            val flow = listener.request(rSocketInitRequest)
-            ok().contentType(MediaType.TEXT_EVENT_STREAM).bodyAndAwait(flow)
+        val rSocketInitRequest = RSocketInitRequestMapper.map(request)
+        val entity = rSocketInitRequest.toEntity()
+        asyncTaskCoroutineScope.launch {
+            historyService.save(entity).awaitSingle()
         }
+        val flow = listener.request(rSocketInitRequest)
+        return ok().contentType(MediaType.TEXT_EVENT_STREAM).bodyAndAwait(flow)
     }
 
     fun RSocketInitRequest.toEntity() = SavedRequestEntity(null, host, port, route)

@@ -1,8 +1,8 @@
 package com.github.ngnhub.rsocket_client.controller
 
+import com.github.ngnhub.rsocket_client.error.RSocketListenerError
 import com.github.ngnhub.rsocket_client.error.ValidationException
 import org.slf4j.LoggerFactory
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -18,10 +18,16 @@ class ExceptionHandlerAdvice : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(ValidationException::class)
-    fun handleValidationException(exc: ValidationException) {
+    fun handleValidationException(exc: ValidationException): ResponseEntity<String> {
         log.error(LOG_TAG, exc)
-        ResponseEntity.badRequest()
-            .contentType(MediaType.TEXT_PLAIN)
+        return ResponseEntity.badRequest()
+            .body(exc.message)
+    }
+
+    @ExceptionHandler(RSocketListenerError::class)
+    fun handleRSocketListenerError(exc: RSocketListenerError): ResponseEntity<String> {
+        log.error(LOG_TAG, exc)
+        return ResponseEntity.badRequest()
             .body(exc.message)
     }
 }
