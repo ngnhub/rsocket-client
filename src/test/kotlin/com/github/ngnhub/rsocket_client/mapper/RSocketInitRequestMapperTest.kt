@@ -35,7 +35,7 @@ class RSocketInitRequestMapperTest {
             val expected = RSocketInitRequest("localhost", port.toInt(), route)
 
             // when
-            val actual = RSocketInitRequestMapper.map(request)
+            val actual = RSocketInitRequestMapper.mapForm(request)
 
             // then
             assertEquals(expected, actual)
@@ -50,7 +50,7 @@ class RSocketInitRequestMapperTest {
 
         // when
         val exception =
-            assertThrows(ValidationException::class.java) { runBlocking { RSocketInitRequestMapper.map(request) } }
+            assertThrows(ValidationException::class.java) { runBlocking { RSocketInitRequestMapper.mapForm(request) } }
 
         // then
         assertEquals(
@@ -72,7 +72,7 @@ class RSocketInitRequestMapperTest {
 
         // when
         val exception =
-            assertThrows(ValidationException::class.java) { runBlocking { RSocketInitRequestMapper.map(request) } }
+            assertThrows(ValidationException::class.java) { runBlocking { RSocketInitRequestMapper.mapForm(request) } }
 
         // then
         assertEquals("'port' must have a numeric format", exception.message)

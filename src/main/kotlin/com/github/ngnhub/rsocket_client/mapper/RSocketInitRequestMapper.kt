@@ -11,7 +11,7 @@ object RSocketInitRequestMapper {
 
     private val numberPattern: Regex = Regex("\\d+")
 
-    suspend fun map(request: ServerRequest): RSocketInitRequest {
+    suspend fun mapForm(request: ServerRequest): RSocketInitRequest {
         val map = request.formData().awaitSingle()
         map.validate()
         return map.mapTo()
