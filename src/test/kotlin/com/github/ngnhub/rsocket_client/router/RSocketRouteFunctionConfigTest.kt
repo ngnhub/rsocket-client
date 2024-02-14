@@ -1,7 +1,7 @@
 package com.github.ngnhub.rsocket_client.router
 
 import com.github.ngnhub.rsocket_client.client.RsocketListener
-import com.github.ngnhub.rsocket_client.model.RSocketInitRequest
+import com.github.ngnhub.rsocket_client.model.RSocketClientRequest
 import kotlinx.coroutines.reactive.asFlow
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -44,7 +44,7 @@ class RSocketRouteFunctionConfigTest {
         formData.add("host", host)
         formData.add("port", port)
         formData.add("route", route)
-        val request = RSocketInitRequest(host, port.toInt(), route)
+        val request = RSocketClientRequest(host, port.toInt(), route)
         `when`(listener.request(request)).thenReturn(Flux.just("rsocket_value").asFlow())
 
         val fluxExchangeResult = client.post()

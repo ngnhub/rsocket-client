@@ -1,7 +1,7 @@
 package com.github.ngnhub.rsocket_client.mapper
 
 import com.github.ngnhub.rsocket_client.error.ValidationException
-import com.github.ngnhub.rsocket_client.model.RSocketInitRequest
+import com.github.ngnhub.rsocket_client.model.RSocketClientRequest
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -14,7 +14,7 @@ import org.springframework.web.reactive.function.server.ServerRequest
 import reactor.core.publisher.Mono
 
 @ExtendWith(MockitoExtension::class)
-class RSocketInitRequestMapperTest {
+class RSocketClientRequestMapperTest {
 
     @Mock
     lateinit var request: ServerRequest
@@ -32,10 +32,10 @@ class RSocketInitRequestMapperTest {
             formData.add("route", route)
             `when`(request.formData()).thenReturn(Mono.just(formData))
 
-            val expected = RSocketInitRequest("localhost", port.toInt(), route)
+            val expected = RSocketClientRequest("localhost", port.toInt(), route)
 
             // when
-            val actual = RSocketInitRequestMapper.mapForm(request)
+            val actual = RSocketInputRequestMapper.mapForm(request)
 
             // then
             assertEquals(expected, actual)
@@ -50,7 +50,7 @@ class RSocketInitRequestMapperTest {
 
         // when
         val exception =
-            assertThrows(ValidationException::class.java) { runBlocking { RSocketInitRequestMapper.mapForm(request) } }
+            assertThrows(ValidationException::class.java) { runBlocking { RSocketInputRequestMapper.mapForm(request) } }
 
         // then
         assertEquals(
@@ -72,7 +72,7 @@ class RSocketInitRequestMapperTest {
 
         // when
         val exception =
-            assertThrows(ValidationException::class.java) { runBlocking { RSocketInitRequestMapper.mapForm(request) } }
+            assertThrows(ValidationException::class.java) { runBlocking { RSocketInputRequestMapper.mapForm(request) } }
 
         // then
         assertEquals("'port' must have a numeric format", exception.message)
