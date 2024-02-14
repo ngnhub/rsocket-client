@@ -1,6 +1,5 @@
 package com.github.ngnhub.rsocket_client.mapper
 
-import com.github.ngnhub.rsocket_client.error.ValidationException
 import com.github.ngnhub.rsocket_client.model.RSocketClientRequest
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*

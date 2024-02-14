@@ -20,13 +20,6 @@ class ExceptionHandlerAdvice : ResponseEntityExceptionHandler() {
         private val log = LoggerFactory.getLogger(ExceptionHandlerAdvice::class.java)
     }
 
-    @ExceptionHandler(ValidationException::class)
-    fun handleValidationException(exc: ValidationException): ResponseEntity<String> {
-        log.error(LOG_TAG, exc)
-        return ResponseEntity.badRequest()
-            .body(exc.message)
-    }
-
     @ExceptionHandler(Throwable::class)
     fun handleRSocketListenerError(exc: Throwable): ResponseEntity<String> {
         log.error(LOG_TAG, exc)
