@@ -1,4 +1,4 @@
-package com.github.ngnhub.rsocket_client.controller
+package com.github.ngnhub.rsocket_client.router
 
 import com.github.ngnhub.rsocket_client.client.RsocketListener
 import com.github.ngnhub.rsocket_client.mapper.RSocketInitRequestMapper
@@ -23,7 +23,6 @@ class RSocketRouteFunctionConfig(
     fun rSocketClientRouter() = coRouter {
         POST("/route") {
             handleRequest(it)
-                .also { println("Exited") }
         }
     }
 

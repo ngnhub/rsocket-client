@@ -1,4 +1,4 @@
-package com.github.ngnhub.rsocket_client.controller
+package com.github.ngnhub.rsocket_client.router
 
 import com.github.ngnhub.rsocket_client.service.HistoryService
 import org.springframework.context.annotation.Bean
