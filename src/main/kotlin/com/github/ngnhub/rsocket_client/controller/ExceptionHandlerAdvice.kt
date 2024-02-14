@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.reactive.result.method.annotation.ResponseEntityExceptionHandler
-import java.net.ConnectException
 
 
 @ControllerAdvice
@@ -24,10 +23,10 @@ class ExceptionHandlerAdvice : ResponseEntityExceptionHandler() {
             .body(exc.message)
     }
 
-    @ExceptionHandler(ConnectException::class)
-    fun handleRSocketListenerError(exc: ConnectException): ResponseEntity<String> {
+    @ExceptionHandler(Throwable::class)
+    fun handleRSocketListenerError(exc: Throwable): ResponseEntity<String> {
         log.error(LOG_TAG, exc)
-        return ResponseEntity.badRequest()
+        return ResponseEntity.internalServerError()
             .body(exc.message)
     }
 }
