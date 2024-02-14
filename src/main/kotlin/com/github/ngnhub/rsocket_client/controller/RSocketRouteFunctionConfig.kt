@@ -7,7 +7,6 @@ import com.github.ngnhub.rsocket_client.model.SavedRequestEntity
 import com.github.ngnhub.rsocket_client.service.HistoryService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
@@ -32,7 +31,7 @@ class RSocketRouteFunctionConfig(
         val rSocketInitRequest = RSocketInitRequestMapper.map(request)
         val entity = rSocketInitRequest.toEntity()
         asyncTaskCoroutineScope.launch {
-            historyService.save(entity).awaitSingle()
+            historyService.save(entity)
         }
         val flow = listener.request(rSocketInitRequest)
         return ok().contentType(MediaType.TEXT_EVENT_STREAM).bodyAndAwait(flow)
