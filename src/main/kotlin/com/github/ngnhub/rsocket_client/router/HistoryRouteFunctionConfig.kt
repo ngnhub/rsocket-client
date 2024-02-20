@@ -18,7 +18,7 @@ class HistoryRouteFunctionConfig(private val historyService: HistoryService) {
         }
     }
 
-    suspend fun ServerRequest.handleGet(): ServerResponse {
+    private suspend fun ServerRequest.handleGet(): ServerResponse {
         val history = historyService.getAll()
         return ServerResponse.ok().bodyAndAwait(history)
     }

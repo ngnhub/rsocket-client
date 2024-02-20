@@ -39,7 +39,7 @@ class RSocketRouteFunctionConfig(
         return ok().contentType(TEXT_EVENT_STREAM).bodyAndAwait(flow)
     }
 
-    suspend fun ServerRequest.toRsocketClientRequest(): RSocketClientRequest {
+   private suspend fun ServerRequest.toRsocketClientRequest(): RSocketClientRequest {
         val contentType: MediaType = headers()
             .contentType()
             .orElseThrow { ServerWebInputException("Content type is empty") }
@@ -54,5 +54,5 @@ class RSocketRouteFunctionConfig(
         )
     }
 
-    fun RSocketClientRequest.toEntity() = SavedRequestEntity(null, host, port, route)
+    private fun RSocketClientRequest.toEntity() = SavedRequestEntity(null, host, port, route)
 }
