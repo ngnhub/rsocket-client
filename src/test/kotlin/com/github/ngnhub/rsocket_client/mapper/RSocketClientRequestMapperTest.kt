@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.Mockito.any
-import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.whenever
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.reactive.function.server.ServerRequest
 import reactor.core.publisher.Mono
@@ -48,7 +48,7 @@ class RSocketClientRequestMapperTest {
             formData.add("host", host)
             formData.add("port", port)
             formData.add("route", route)
-            `when`(request.formData()).thenReturn(Mono.just(formData))
+            whenever(request.formData()).thenReturn(Mono.just(formData))
 
             val expected = RSocketClientRequest("localhost", port.toInt(), route)
 
@@ -65,9 +65,9 @@ class RSocketClientRequestMapperTest {
         // given
         runBlocking {
             val formData = LinkedMultiValueMap<String, String>()
-            `when`(request.formData()).thenReturn(Mono.just(formData))
+            whenever(request.formData()).thenReturn(Mono.just(formData))
             val constraints = mutableSetOf(constraint)
-            `when`(validator.validate(any(RSocketInputRequest::class.java))).thenReturn(constraints)
+            whenever(validator.validate(any(RSocketInputRequest::class.java))).thenReturn(constraints)
 
             // when
             val exception = assertThrows(ConstraintViolationException::class.java)
@@ -87,7 +87,7 @@ class RSocketClientRequestMapperTest {
         runBlocking {
             // given
             val fromJson = RSocketInputRequest("localhost", 7070, "route")
-            `when`(request.bodyToMono(RSocketInputRequest::class.java)).thenReturn(Mono.just(fromJson))
+            whenever(request.bodyToMono(RSocketInputRequest::class.java)).thenReturn(Mono.just(fromJson))
 
             // when
             val actual = mapper.mapJson(request)
@@ -103,9 +103,9 @@ class RSocketClientRequestMapperTest {
         // given
         runBlocking {
             val fromJson = RSocketInputRequest("localhost", 7070, "route")
-            `when`(request.bodyToMono(RSocketInputRequest::class.java)).thenReturn(Mono.just(fromJson))
+            whenever(request.bodyToMono(RSocketInputRequest::class.java)).thenReturn(Mono.just(fromJson))
             val constraints = mutableSetOf(constraint)
-            `when`(validator.validate(any(RSocketInputRequest::class.java))).thenReturn(constraints)
+            whenever(validator.validate(any(RSocketInputRequest::class.java))).thenReturn(constraints)
 
             // when
             val exception = assertThrows(ConstraintViolationException::class.java)

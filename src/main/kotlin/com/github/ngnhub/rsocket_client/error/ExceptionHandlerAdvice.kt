@@ -33,9 +33,9 @@ class ExceptionHandlerAdvice : ResponseEntityExceptionHandler() {
         status: HttpStatusCode,
         exchange: ServerWebExchange
     ): Mono<ResponseEntity<Any>> {
-        log.error(LOG_TAG, ex.cause)
-        val body: ResponseEntity<Any> = ResponseEntity.internalServerError()
-            .body(ex.cause?.message)
+        log.error("{}:{}", LOG_TAG, ex.reason)
+        val body: ResponseEntity<Any> = ResponseEntity.badRequest()
+            .body(ex.reason)
         return Mono.just(body)
     }
 }

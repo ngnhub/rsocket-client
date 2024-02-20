@@ -14,6 +14,8 @@ version = "0.0.1-SNAPSHOT"
 val h2Version = "2.2.224"
 val h2ReactiveDriverVersion = "1.0.0.RELEASE"
 val flywayVersion = "10.7.2"
+val mockitoKotlinVersion = "5.2.1"
+val kotlinCoroutinesTestVersion = "1.8.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -34,13 +36,15 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     // DB
-    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc:")
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("com.h2database:h2:$h2Version")
     implementation("io.r2dbc:r2dbc-h2:$h2ReactiveDriverVersion")
     implementation("org.flywaydb:flyway-core:$flywayVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation("io.projectreactor:reactor-test")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesTestVersion")
 }
 
 tasks.withType<KotlinCompile> {
