@@ -2,7 +2,7 @@ package com.github.ngnhub.rsocket_client.router
 
 import com.github.ngnhub.rsocket_client.client.RsocketListener
 import com.github.ngnhub.rsocket_client.error.UnsupportedContentType
-import com.github.ngnhub.rsocket_client.mapper.RSocketInputRequestMapper
+import com.github.ngnhub.rsocket_client.mapper.RSocketClientRequestMapper
 import com.github.ngnhub.rsocket_client.model.RSocketClientRequest
 import com.github.ngnhub.rsocket_client.model.SavedRequestEntity
 import com.github.ngnhub.rsocket_client.service.HistoryService
@@ -19,7 +19,7 @@ class RSocketRouteFunctionConfig(
     private val listener: RsocketListener,
     private val historyService: HistoryService,
     private val asyncTaskCoroutineScope: CoroutineScope,
-    private val mapper: RSocketInputRequestMapper
+    private val mapper: RSocketClientRequestMapper
 ) {
 
     @Bean

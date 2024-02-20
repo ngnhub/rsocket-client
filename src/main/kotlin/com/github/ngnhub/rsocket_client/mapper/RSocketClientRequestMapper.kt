@@ -4,22 +4,22 @@ import com.github.ngnhub.rsocket_client.model.RSocketClientRequest
 import com.github.ngnhub.rsocket_client.model.RSocketInputRequest
 import jakarta.validation.ConstraintViolationException
 import jakarta.validation.Validator
-import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Component
 import org.springframework.util.MultiValueMap
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.awaitBody
+import org.springframework.web.reactive.function.server.awaitFormData
 
 @Component
-class RSocketInputRequestMapper(private val validator: Validator) {
+class RSocketClientRequestMapper(private val validator: Validator) {
 
     suspend fun mapForm(request: ServerRequest): RSocketClientRequest {
-        val map = request.formData().awaitSingle().mapToInputRequest()
+        val map = request.awaitFormData().toInputRequest()
             .also { it.validate() }
         return RSocketClientRequest(map.host!!, map.port!!, map.route!!)
     }
 
-    private fun MultiValueMap<String, String>.mapToInputRequest(): RSocketInputRequest {
+    private fun MultiValueMap<String, String>.toInputRequest(): RSocketInputRequest {
         return RSocketInputRequest(
             getFirst("host"),
             getFirst("port")?.toInt(),
@@ -35,7 +35,7 @@ class RSocketInputRequestMapper(private val validator: Validator) {
 
     private fun RSocketInputRequest.validate() {
         val errors = validator.validate(this)
-        if (errors.isNotEmpty()) {
+        if (!errors.isNullOrEmpty()) {
             throw ConstraintViolationException(errors)
         }
     }

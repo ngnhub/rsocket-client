@@ -1,11 +1,17 @@
 package com.github.ngnhub.rsocket_client.mapper
 
 import com.github.ngnhub.rsocket_client.model.RSocketClientRequest
+import com.github.ngnhub.rsocket_client.model.RSocketInputRequest
+import jakarta.validation.ConstraintViolation
+import jakarta.validation.ConstraintViolationException
+import jakarta.validation.Validator
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
+import org.mockito.Mockito.any
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.util.LinkedMultiValueMap
@@ -16,10 +22,23 @@ import reactor.core.publisher.Mono
 class RSocketClientRequestMapperTest {
 
     @Mock
-    lateinit var request: ServerRequest
+    private lateinit var request: ServerRequest
+
+    @Mock
+    private lateinit var validator: Validator
+
+    @Mock
+    private lateinit var constraint: ConstraintViolation<RSocketInputRequest?>
+
+    private lateinit var mapper: RSocketClientRequestMapper
+
+    @BeforeEach
+    fun setUp() {
+        mapper = RSocketClientRequestMapper(validator)
+    }
 
     @Test
-    fun `should map server request to RSocket init request`() {
+    fun `should map server request to RSocket client request from formMap`() {
         runBlocking {
             // given
             val formData = LinkedMultiValueMap<String, String>()
@@ -34,7 +53,7 @@ class RSocketClientRequestMapperTest {
             val expected = RSocketClientRequest("localhost", port.toInt(), route)
 
             // when
-            val actual = RSocketInputRequestMapper.mapForm(request)
+            val actual = mapper.mapForm(request)
 
             // then
             assertEquals(expected, actual)
@@ -42,38 +61,62 @@ class RSocketClientRequestMapperTest {
     }
 
     @Test
-    fun `should throw an error with multiple violations`() {
+    fun `should throw an error when constraints occurred in formMap`() {
         // given
-        val formData = LinkedMultiValueMap<String, String>()
-        `when`(request.formData()).thenReturn(Mono.just(formData))
+        runBlocking {
+            val formData = LinkedMultiValueMap<String, String>()
+            `when`(request.formData()).thenReturn(Mono.just(formData))
+            val constraints = mutableSetOf(constraint)
+            `when`(validator.validate(any(RSocketInputRequest::class.java))).thenReturn(constraints)
 
-        // when
-        val exception =
-            assertThrows(ValidationException::class.java) { runBlocking { RSocketInputRequestMapper.mapForm(request) } }
+            // when
+            val exception = assertThrows(ConstraintViolationException::class.java)
+            {
+                runBlocking {
+                    mapper.mapForm(request)
+                }
+            }
 
-        // then
-        assertEquals(
-            "'host' can not be empty\n'port' can not be empty\n'path' can not be empty", exception.message
-        )
+            // then
+            assertEquals(constraints, exception.constraintViolations)
+        }
     }
 
     @Test
-    fun `should throw an error when port is not numeric`() {
+    fun `should map server request to RSocket client request from json`() {
+        runBlocking {
+            // given
+            val fromJson = RSocketInputRequest("localhost", 7070, "route")
+            `when`(request.bodyToMono(RSocketInputRequest::class.java)).thenReturn(Mono.just(fromJson))
+
+            // when
+            val actual = mapper.mapJson(request)
+
+            // then
+            val expected = RSocketClientRequest("localhost", 7070, "route")
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Test
+    fun `should throw an error when constraints occurred in json`() {
         // given
-        val formData = LinkedMultiValueMap<String, String>()
-        val host = "localhost"
-        val port = "aaaa"
-        val route = "/some/route"
-        formData.add("host", host)
-        formData.add("port", port)
-        formData.add("route", route)
-        `when`(request.formData()).thenReturn(Mono.just(formData))
+        runBlocking {
+            val fromJson = RSocketInputRequest("localhost", 7070, "route")
+            `when`(request.bodyToMono(RSocketInputRequest::class.java)).thenReturn(Mono.just(fromJson))
+            val constraints = mutableSetOf(constraint)
+            `when`(validator.validate(any(RSocketInputRequest::class.java))).thenReturn(constraints)
 
-        // when
-        val exception =
-            assertThrows(ValidationException::class.java) { runBlocking { RSocketInputRequestMapper.mapForm(request) } }
+            // when
+            val exception = assertThrows(ConstraintViolationException::class.java)
+            {
+                runBlocking {
+                    mapper.mapJson(request)
+                }
+            }
 
-        // then
-        assertEquals("'port' must have a numeric format", exception.message)
+            // then
+            assertEquals(constraints, exception.constraintViolations)
+        }
     }
 }
