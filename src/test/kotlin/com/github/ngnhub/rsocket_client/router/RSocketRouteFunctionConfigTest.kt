@@ -57,6 +57,7 @@ class RSocketRouteFunctionConfigTest {
             whenever(mapper.mapForm(any())).thenReturn(request)
             whenever(listener.request(request)).thenReturn(Flux.just("rsocket_value").asFlow())
 
+            // when
             val fluxExchangeResult = client.post()
                 .uri("/route")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -68,6 +69,7 @@ class RSocketRouteFunctionConfigTest {
                 .contentType("text/event-stream;charset=UTF-8")
                 .returnResult(String::class.java)
 
+            // then
             StepVerifier.create(fluxExchangeResult.responseBody)
                 .expectNext("rsocket_value")
                 .verifyComplete()
@@ -83,6 +85,7 @@ class RSocketRouteFunctionConfigTest {
             whenever(mapper.mapJson(any())).thenReturn(request)
             whenever(listener.request(request)).thenReturn(Flux.just("rsocket_value").asFlow())
 
+            // when
             val fluxExchangeResult = client.post()
                 .uri("/route")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -94,6 +97,7 @@ class RSocketRouteFunctionConfigTest {
                 .contentType("text/event-stream;charset=UTF-8")
                 .returnResult(String::class.java)
 
+            // then
             StepVerifier.create(fluxExchangeResult.responseBody)
                 .expectNext("rsocket_value")
                 .verifyComplete()
@@ -103,7 +107,6 @@ class RSocketRouteFunctionConfigTest {
     @Test
     fun `should throw unsupported content type empty`() {
         runBlocking {
-            // given
             client.post()
                 .uri("/route")
                 .bodyValue("{}")
@@ -116,7 +119,6 @@ class RSocketRouteFunctionConfigTest {
     @Test
     fun `should throw unsupported content type invalid`() {
         runBlocking {
-            // given
             client.post()
                 .uri("/route")
                 .contentType(MediaType.TEXT_PLAIN)

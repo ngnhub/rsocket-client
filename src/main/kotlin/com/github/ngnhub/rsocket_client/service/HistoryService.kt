@@ -1,7 +1,9 @@
 package com.github.ngnhub.rsocket_client.service
 
+import com.github.ngnhub.rsocket_client.model.SavedRequest
 import com.github.ngnhub.rsocket_client.model.SavedRequestEntity
 import com.github.ngnhub.rsocket_client.reposiotry.SavedRequestRepository
+import kotlinx.coroutines.flow.map
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
@@ -20,4 +22,7 @@ class HistoryService(private val repository: SavedRequestRepository) {
 
     suspend fun getAll() = repository
         .findAll(Sort.by(Sort.Order.desc("savedAt")))
+        .map { it.toDto() }
+
+    private fun SavedRequestEntity.toDto() = SavedRequest(id!!, host, port, route, savedAt)
 }
