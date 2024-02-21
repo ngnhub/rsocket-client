@@ -18,11 +18,17 @@ class HistoryService(private val repository: SavedRequestRepository) {
 
     suspend fun save(request: SavedRequestEntity) =
         repository.save(request)
-            .also { log.info("{} History saved, {}", LOG_TAG, it) }
+            .also { log.info("{} History item has been saved, {}", LOG_TAG, it) }
 
     suspend fun getAll() = repository
         .findAll(Sort.by(Sort.Order.desc("savedAt")))
         .map { it.toDto() }
 
     private fun SavedRequestEntity.toDto() = SavedRequest(id!!, host, port, route, savedAt)
+
+    suspend fun deleteAll() = repository.deleteAll()
+        .also { log.info("{} History has been cleared", LOG_TAG) }
+
+    suspend fun deleteBy(id: Long) = repository.deleteById(id)
+        .also { log.info("{} History item has been removed", LOG_TAG) }
 }
