@@ -16,7 +16,7 @@ h1, h2, h3, h4 {
 }
 
 #sidebar {
-    width: 250px;
+    width: 300px;
     background-color: #f9f9f9;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     position: fixed;
@@ -35,19 +35,30 @@ h1, h2, h3, h4 {
 }
 
 #sidebar ul li {
-    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
     font-size: 14px;
     border-bottom: 1px solid #ccc;
     cursor: pointer;
 }
 
+#sidebar ul li span {
+    flex-grow: 1;
+    overflow:auto;
+    overflow-y: scroll;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 #sidebar ul li:hover {
-    background-color: #e9ecef; /* Цвет фона при наведении */
+    background-color: #e9ecef;
 }
 
 #sidebar ul li:active {
-    background-color: #adb5bd; /* Цвет фона при нажатии */
-    transform: translateY(2px); /* Подвигаем элемент вниз, создавая эффект нажатия */
+    background-color: #adb5bd;
+    transform: translateY(2px);
 }
 
 .button:hover {
@@ -111,15 +122,18 @@ button[type="submit"]:hover, button[type="button"]:hover {
     background-color: #e7e7e7;
 }
 
+
 .delete-btn {
-    float: right; /* Расположить кнопку справа */
-    margin-left: 10px; /* Отступ слева */
-    border: none; /* Убрать границу */
-    background: none; /* Прозрачный фон */
-    cursor: pointer; /* Стиль курсора */
-    color: #999; /* Цвет символа крестика */
+    padding: 0 5px;
+    margin-right: 5px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #999;
+    font-size: 14px;
+    line-height: 1;
 }
 
 .delete-btn:hover {
-    color: #e00; /* Цвет при наведении */
+    color: #e00;
 }
