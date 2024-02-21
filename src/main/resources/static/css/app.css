@@ -93,3 +93,20 @@ button[type="submit"], [type="button"] {
 button[type="submit"]:hover, button[type="button"]:hover {
     background-color: #0056b3;
 }
+
+#clearHistory {
+    display: block;
+    width: auto;
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#clearHistory:hover {
+    background-color: #e7e7e7;
+}

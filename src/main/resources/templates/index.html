@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>RSocket UI Client</title>
 
-    <!--  Add CSS -->
     <link th:href="@{/css/app.css}" rel="stylesheet"/>
 </head>
 <body class="inner">
 <h1>RSocket UI Client</h1>
 <aside id="sidebar">
     <h4>Request history</h4>
+    <button id="clearHistory" onclick="clearHistory()">Clear All</button>
     <ul id="items">
     </ul>
 </aside>
@@ -50,6 +50,13 @@
             })
 
             .catch(error => console.error('Error loading history:', error));
+    }
+
+    function clearHistory() {
+        document.getElementById('items').innerHTML = '';
+        fetch('/history', {method: 'DELETE'})
+            .then(response => response.ok ? loadHistory() : console.error('Error clearing history'))
+            .catch(error => console.error('Error clearing history:', error));
     }
 
     window.onload = function () {
