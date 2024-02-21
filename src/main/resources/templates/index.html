@@ -38,7 +38,10 @@
                 list.innerHTML = '';
                 data.forEach(item => {
                     const listItem = document.createElement('li');
+                    listItem.title = `${item.host}:${item.port}/${item.route}`;
+
                     const textSpan = document.createElement('span');
+
                     textSpan.textContent =
                         `${item.host}:${item.port}/${item.route}`;
                     listItem.appendChild(textSpan)
