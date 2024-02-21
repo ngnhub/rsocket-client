@@ -71,4 +71,26 @@ class HistoryServiceTest {
             verify(repository).findAll(Sort.by(Sort.Order.desc("savedAt")))
         }
     }
+
+    @Test
+    fun `should delete all history`() {
+        runBlocking {
+            // when
+            service.deleteAll()
+
+            //then
+            verify(repository).deleteAll()
+        }
+    }
+
+    @Test
+    fun `should delete history item`() {
+        runBlocking {
+            // when
+            service.deleteBy(1L)
+
+            //then
+            verify(repository).deleteById(1L)
+        }
+    }
 }
