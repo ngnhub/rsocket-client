@@ -10,5 +10,5 @@ data class SavedRequestEntity(
     val host: String,
     val port: Int,
     val route: String,
-    val savedAt: LocalDateTime = LocalDateTime.now()
+    val savedAt: LocalDateTime
 )
