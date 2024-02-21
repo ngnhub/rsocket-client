@@ -63,6 +63,7 @@
     }
 
     function deleteHistoryItem(id) {
+        event.stopPropagation();
         fetch('/history/' + id, {method: 'DELETE'})
             .then(response => response.ok ? loadHistory() : console.error('Error clearing history'))
             .catch(error => console.error('Error clearing history:', error));
