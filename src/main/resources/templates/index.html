@@ -40,6 +40,14 @@
                     const listItem = document.createElement('li');
                     listItem.textContent =
                         `${item.host}:${item.port}/${item.route}`;
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = '✕';
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.onclick = function () {
+                        deleteHistoryItem(item.id);
+                    };
+
+                    listItem.appendChild(deleteBtn);
                     list.appendChild(listItem);
                     listItem.addEventListener('click', function () {
                         document.querySelector('input[name="host"]').value = item.host;
@@ -50,6 +58,12 @@
             })
 
             .catch(error => console.error('Error loading history:', error));
+    }
+
+    function deleteHistoryItem(id) {
+        fetch('/history/' + id, {method: 'DELETE'})
+            .then(response => response.ok ? loadHistory() : console.error('Error clearing history'))
+            .catch(error => console.error('Error clearing history:', error));
     }
 
     function clearHistory() {

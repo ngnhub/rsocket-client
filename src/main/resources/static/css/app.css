@@ -110,3 +110,16 @@ button[type="submit"]:hover, button[type="button"]:hover {
 #clearHistory:hover {
     background-color: #e7e7e7;
 }
+
+.delete-btn {
+    float: right; /* Расположить кнопку справа */
+    margin-left: 10px; /* Отступ слева */
+    border: none; /* Убрать границу */
+    background: none; /* Прозрачный фон */
+    cursor: pointer; /* Стиль курсора */
+    color: #999; /* Цвет символа крестика */
+}
+
+.delete-btn:hover {
+    color: #e00; /* Цвет при наведении */
+}
