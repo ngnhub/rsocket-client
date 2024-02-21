@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.any
+import org.mockito.kotlin.never
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDateTime
@@ -32,7 +35,7 @@ class HistoryRouteFunctionConfigTest {
     }
 
     @Test
-    fun `should get all history`() {
+    fun `should get all history via history service`() {
         runBlocking {
             // given
             val date = LocalDateTime.of(2025, 1, 1, 1, 1)
@@ -51,6 +54,45 @@ class HistoryRouteFunctionConfigTest {
                     .expectBody()
                     .json(json)
             }
+        }
+    }
+
+    @Test
+    fun `should delete all history via history service`() {
+        runBlocking {
+            client.delete()
+                .uri("/history")
+                .exchange()
+                .expectStatus()
+                .isOk
+
+            verify(historyService).deleteAll()
+        }
+    }
+
+    @Test
+    fun `should delete history item via history service`() {
+        runBlocking {
+            client.delete()
+                .uri("/history/1")
+                .exchange()
+                .expectStatus()
+                .isOk
+
+            verify(historyService).deleteBy(1L)
+        }
+    }
+
+    @Test
+    fun `should return Bad request if history item id is not numeric`() {
+        runBlocking {
+            client.delete()
+                .uri("/history/a")
+                .exchange()
+                .expectStatus()
+                .isBadRequest
+
+            verify(historyService, never()).deleteBy(any())
         }
     }
 }
