@@ -14,9 +14,9 @@ import org.springframework.web.reactive.function.server.awaitFormData
 class RSocketClientRequestMapper(private val validator: Validator) {
 
     suspend fun mapForm(request: ServerRequest): RSocketClientRequest {
-        val map = request.awaitFormData().toInputRequest()
+        val inputRequest = request.awaitFormData().toInputRequest()
             .also { it.validate() }
-        return RSocketClientRequest(map.host!!, map.port!!, map.route!!)
+        return RSocketClientRequest(inputRequest.host!!, inputRequest.port!!, inputRequest.route ?: "")
     }
 
     private fun MultiValueMap<String, String>.toInputRequest(): RSocketInputRequest {
@@ -30,12 +30,12 @@ class RSocketClientRequestMapper(private val validator: Validator) {
     suspend fun mapJson(request: ServerRequest): RSocketClientRequest {
         val inputRequest = request.awaitBody(RSocketInputRequest::class)
             .also { it.validate() }
-        return RSocketClientRequest(inputRequest.host!!, inputRequest.port!!, inputRequest.route!!)
+        return RSocketClientRequest(inputRequest.host!!, inputRequest.port!!, inputRequest.route?: "")
     }
 
     private fun RSocketInputRequest.validate() {
         val errors = validator.validate(this)
-        if (!errors.isNullOrEmpty()) {
+        if (errors.isNotEmpty()) {
             throw ConstraintViolationException(errors)
         }
     }
