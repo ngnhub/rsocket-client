@@ -62,7 +62,7 @@ class RouteServiceTest {
 
             asyncTaskCoroutineScope.advanceUntilIdle()
             val dateTime = LocalDateTime.of(2025, 1, 1, 1, 1)
-            val expectedSaved = SavedRequestEntity(null, request.host, request.port, request.route, dateTime)
+            val expectedSaved = SavedRequestEntity(null, request.host, request.port, request.route!!, dateTime)
             verify(historyService).save(expectedSaved)
         }
     }

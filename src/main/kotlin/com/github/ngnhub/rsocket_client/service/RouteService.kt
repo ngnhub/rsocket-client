@@ -35,5 +35,5 @@ class RouteService(
     }
 
     private fun RSocketClientRequest.toEntity() =
-        SavedRequestEntity(null, host, port, route, LocalDateTime.now(clock))
+        SavedRequestEntity(null, host, port, route ?: "", LocalDateTime.now(clock))
 }

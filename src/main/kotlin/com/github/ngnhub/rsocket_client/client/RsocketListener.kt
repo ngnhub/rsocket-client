@@ -13,7 +13,7 @@ class RsocketListener {
     suspend fun request(request: RSocketClientRequest) =
         RSocketRequester.builder()
             .tcp(request.host, request.port)
-            .route(request.route)
+            .route(request.route ?: "")
             .retrieveFlow<String>()
             .catch { throw RSocketListenerError(it.message) }
 }
