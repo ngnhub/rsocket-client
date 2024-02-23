@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.ngnhub"
-version = "0.0.1-SNAPSHOT"
+version = "1.0"
 
 // versions
 val h2Version = "2.2.224"
