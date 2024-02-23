@@ -1,12 +1,6 @@
 FROM openjdk:21-slim
 
-COPY . /app/rsocket_client
-
-WORKDIR /app/rsocket_client
-
-RUN ./gradlew build
-
-RUN cp build/libs/rsocket_client-*.jar /app/rsocket_client.jar
+COPY ./build/libs/rsocket_client-*.jar /app/rsocket_client.jar
 
 WORKDIR /app
 
