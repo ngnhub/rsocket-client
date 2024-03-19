@@ -1,15 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    alias(libs.plugins.kotlin) // TODO: try to exclude root jar
+    alias(libs.plugins.kotlin) apply false
 }
-
-repositories {
-    mavenCentral()
-}
-
-group = "com.github.ngnhub.rsocket_client"
-version = "1.0"
 
 val mockitoKotlinVersion = "5.2.1"
 val kotlinCoroutinesTestVersion = "1.8.0"
@@ -20,6 +13,12 @@ subprojects {
     repositories {
         mavenCentral()
     }
+
+    group = "com.github.ngnhub.rsocket_client"
+    version = "1.0"
+
+    val implementation by configurations
+    val testImplementation by configurations
 
     dependencies {
         implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
