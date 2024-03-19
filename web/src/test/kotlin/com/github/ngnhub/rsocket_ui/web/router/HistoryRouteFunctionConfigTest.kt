@@ -1,8 +1,8 @@
 package com.github.ngnhub.rsocket_ui.web.router
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.ngnhub.rsocket_ui.web.model.SavedRequest
-import com.github.ngnhub.rsocket_ui.web.service.HistoryService
+import com.github.ngnhub.rsocket_ui.domain.model.SavedRequest
+import com.github.ngnhub.rsocket_ui.domain.service.HistoryService
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*

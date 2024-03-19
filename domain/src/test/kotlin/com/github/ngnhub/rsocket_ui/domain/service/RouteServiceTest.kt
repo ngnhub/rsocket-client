@@ -1,7 +1,8 @@
-package com.github.ngnhub.rsocket_ui.web.service
+package com.github.ngnhub.rsocket_ui.domain.service
 
-import com.github.ngnhub.rsocket_ui.web.model.RSocketClientRequest
-import com.github.ngnhub.rsocket_ui.web.model.SavedRequestEntity
+import com.github.ngnhub.rsocket_ui.domain.client.RsocketListener
+import com.github.ngnhub.rsocket_ui.domain.model.RSocketClientRequest
+import com.github.ngnhub.rsocket_ui.domain.model.SavedRequestEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.toList
@@ -25,7 +26,7 @@ import java.time.ZoneId
 class RouteServiceTest {
 
     @Mock
-    private lateinit var listener: com.github.ngnhub.rsocket_ui.web.client.RsocketListener
+    private lateinit var listener: RsocketListener
 
     @Mock
     private lateinit var historyService: HistoryService

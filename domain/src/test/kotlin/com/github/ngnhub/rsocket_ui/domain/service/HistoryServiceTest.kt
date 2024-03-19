@@ -1,8 +1,8 @@
-package com.github.ngnhub.rsocket_ui.web.service
+package com.github.ngnhub.rsocket_ui.domain.service
 
-import com.github.ngnhub.rsocket_ui.web.model.SavedRequest
-import com.github.ngnhub.rsocket_ui.web.model.SavedRequestEntity
-import com.github.ngnhub.rsocket_ui.web.reposiotry.SavedRequestRepository
+import com.github.ngnhub.rsocket_ui.domain.model.SavedRequest
+import com.github.ngnhub.rsocket_ui.domain.model.SavedRequestEntity
+import com.github.ngnhub.rsocket_ui.domain.repository.SavedRequestRepository
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
