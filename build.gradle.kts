@@ -1,14 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin) // TODO: try to exclude root jar
 }
 
 repositories {
     mavenCentral()
 }
 
-group = "com.github.ngnhub.rsocket_ui"
+group = "com.github.ngnhub.rsocket_client"
 version = "1.0"
 
 val mockitoKotlinVersion = "5.2.1"
@@ -16,10 +16,6 @@ val kotlinCoroutinesTestVersion = "1.8.0"
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
-
-    java {
-        sourceCompatibility = JavaVersion.VERSION_21
-    }
 
     repositories {
         mavenCentral()
