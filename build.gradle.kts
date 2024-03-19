@@ -1,18 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    alias(libs.plugins.kotlin) // TODO: try to exclude root jar
+    alias(libs.plugins.kotlin) apply false
 }
-
-repositories {
-    mavenCentral()
-}
-
-group = "com.github.ngnhub.rsocket_client"
-version = "1.0"
-
-val mockitoKotlinVersion = "5.2.1"
-val kotlinCoroutinesTestVersion = "1.8.0"
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
@@ -21,12 +11,21 @@ subprojects {
         mavenCentral()
     }
 
+    group = "com.github.ngnhub.rsocket_client"
+    version = "1.0"
+
+    // versions
+    val mockitoKotlinVersion = "5.2.1"
+    val kotlinCoroutinesTestVersion = "1.8.0"
+
+    val implementation by configurations
+    val testImplementation by configurations
+
     dependencies {
         implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
         testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
         testImplementation("io.projectreactor:reactor-test")
         testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesTestVersion")

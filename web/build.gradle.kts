@@ -16,6 +16,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     implementation(project(":domain"))
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 // disables creation of plain jar
