@@ -1,4 +1,4 @@
-package com.github.ngnhub.rsocket_ui.domain.reposiotry
+package com.github.ngnhub.rsocket_ui.domain.repository
 
 import com.github.ngnhub.rsocket_ui.domain.model.SavedRequestEntity
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository

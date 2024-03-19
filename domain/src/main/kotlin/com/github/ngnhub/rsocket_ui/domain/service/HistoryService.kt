@@ -2,7 +2,7 @@ package com.github.ngnhub.rsocket_ui.domain.service
 
 import com.github.ngnhub.rsocket_ui.domain.model.SavedRequest
 import com.github.ngnhub.rsocket_ui.domain.model.SavedRequestEntity
-import com.github.ngnhub.rsocket_ui.domain.reposiotry.SavedRequestRepository
+import com.github.ngnhub.rsocket_ui.domain.repository.SavedRequestRepository
 import kotlinx.coroutines.flow.map
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Sort

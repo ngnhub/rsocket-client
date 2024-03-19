@@ -17,7 +17,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    implementation(project(":domain-spring-boot-starter"))
+    implementation(project(":domain"))
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
