@@ -1,6 +1,6 @@
 package com.github.ngnhub.rsocket_ui.web.mapper
 
-import com.github.ngnhub.rsocket_ui.web.model.RSocketClientRequest
+import com.github.ngnhub.rsocket_ui.domain.model.RSocketClientRequest
 import com.github.ngnhub.rsocket_ui.web.model.RSocketInputRequest
 import jakarta.validation.ConstraintViolationException
 import jakarta.validation.Validator

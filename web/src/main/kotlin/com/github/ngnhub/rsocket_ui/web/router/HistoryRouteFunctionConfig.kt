@@ -1,6 +1,6 @@
 package com.github.ngnhub.rsocket_ui.web.router
 
-import com.github.ngnhub.rsocket_ui.web.service.HistoryService
+import com.github.ngnhub.rsocket_ui.domain.service.HistoryService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.server.*

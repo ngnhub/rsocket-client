@@ -35,11 +35,6 @@ subprojects {
         }
     }
 
-    // disables creation of plain jar
-    tasks.getByName<Jar>("jar") {
-        enabled = false
-    }
-
     tasks.withType<Test> {
         useJUnitPlatform()
 

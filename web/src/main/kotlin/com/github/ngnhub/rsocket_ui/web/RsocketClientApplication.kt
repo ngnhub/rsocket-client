@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class RsocketClientApplication
 
 fun main(args: Array<String>) {
-    runApplication<com.github.ngnhub.rsocket_ui.web.RsocketClientApplication>(*args)
+    runApplication<RsocketClientApplication>(*args)
 }
