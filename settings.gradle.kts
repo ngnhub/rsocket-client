@@ -1,4 +1,5 @@
-include("web")
+include("web", "domain")
+project(":domain").name = "domain-spring-boot-starter"
 
 rootProject.name = "rsocket_client"
 

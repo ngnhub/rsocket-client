@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.github.ngnhub.rsocket_ui.domain.config.DomainAutoConfiguration
