@@ -1,6 +1,6 @@
 FROM openjdk:21-slim
 
-COPY ./build/libs/web.jar /app/rsocket_client.jar
+COPY ./build/libs/web-*.jar /app/rsocket_client.jar
 
 WORKDIR /app
 
